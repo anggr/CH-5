@@ -1,7 +1,6 @@
 const express = require('express')
 const fs = require('fs')
 const bodyParser = require('body-parser')
-
 const app = express()
 const jsonParser = bodyParser.json()
 
@@ -11,6 +10,10 @@ app.get('/user', function (req, res) {
     res.send(data)
 })
 
+app.get('/login', function (req, res) {
+    res.sendFile(__dirname + '/login.html')
+
+})
 
 app.post('/user', jsonParser, (req, res) => {
     let data = JSON.parse(fs.readFileSync('./user.json', 'utf-8'))
@@ -18,7 +21,7 @@ app.post('/user', jsonParser, (req, res) => {
     req.body.id = newId
     data.push(req.body)
     fs.writeFileSync('./user.json', JSON.stringify(data))
-    res.send(data)
+    res.status(201).send(data)
 })
 
 
