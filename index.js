@@ -11,14 +11,16 @@ app.get('/user', function (req, res) {
     res.send(data)
 })
 
-app.post('/user', jsonParser(req, res) {
-    console.log(req.body)
+
+app.post('/user', jsonParser, (req, res) => {
     let data = JSON.parse(fs.readFileSync('./user.json', 'utf-8'))
     let newId = data[data.length - 1].id + 1
-    res.send("data berhasil ditambahkan")
-
-
+    req.body.id = newId
+    data.push(req.body)
+    fs.writeFileSync('./user.json', JSON.stringify(data))
+    res.send(data)
 })
+
 
 
 
