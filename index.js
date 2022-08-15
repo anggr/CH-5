@@ -4,25 +4,22 @@ const bodyParser = require('body-parser')
 const app = express()
 const jsonParser = bodyParser.json()
 
-app.use('/css', express.static(__dirname + '/css'))
-app.use('/assets', express.static(__dirname + '/assets'))
+app.use('/public', express.static(__dirname + '/public'))
 app.use('/js', express.static(__dirname + '/js'))
 
 
-app.set('view engine', 'ejs')
 
+app.set('view engine', 'ejs')
 app.get('/landingpage', function (req, res) {
-    res.render("landingpage", { css: "css/landingpage.css" })
+    res.render("landingpage", { public: "public/landingpage.css" })
 })
 app.get('/game', function (req, res) {
-    res.render("game", { css: "css/game.css" })
+    res.render("game", { public: "public/game.css" })
 })
-
 app.get('/user', function (req, res) {
     let data = JSON.parse(fs.readFileSync('./user.json', 'utf-8'))
     res.send(data)
 })
-
 app.post('/user', jsonParser, (req, res) => {
     let data = JSON.parse(fs.readFileSync('./user.json', 'utf-8'))
     let newId = data[data.length - 1].id + 1
