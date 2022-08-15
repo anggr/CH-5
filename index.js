@@ -1,6 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 const bodyParser = require('body-parser')
+const { retreiveAllData } = require('./js/retreiveData')
 const app = express()
 const jsonParser = bodyParser.json()
 
@@ -17,11 +18,11 @@ app.get('/game', function (req, res) {
     res.render("game", { public: "public/game.css" })
 })
 app.get('/user', function (req, res) {
-    let data = JSON.parse(fs.readFileSync('./user.json', 'utf-8'))
+    let data = retreiveAllData()
     res.send(data)
 })
 app.post('/user', jsonParser, (req, res) => {
-    let data = JSON.parse(fs.readFileSync('./user.json', 'utf-8'))
+    let data = retreiveAllData()
     let newId = data[data.length - 1].id + 1
     req.body.id = newId
     data.push(req.body)
