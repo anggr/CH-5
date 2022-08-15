@@ -4,15 +4,23 @@ const bodyParser = require('body-parser')
 const app = express()
 const jsonParser = bodyParser.json()
 
+app.use('/css', express.static(__dirname + '/css'))
+app.use('/assets', express.static(__dirname + '/assets'))
+app.use('/js', express.static(__dirname + '/js'))
 
-app.get('/user', function (req, res) {
-    let data = JSON.parse(fs.readFileSync('./user.json', 'utf-8'))  //kirim data dari file user berbentuk string ke .json
-    res.send(data)
+
+app.set('view engine', 'ejs')
+
+app.get('/landingpage', function (req, res) {
+    res.render("landingpage", { css: "css/landingpage.css" })
+})
+app.get('/game', function (req, res) {
+    res.render("game", { css: "css/game.css" })
 })
 
-app.get('/login', function (req, res) {
-    res.sendFile(__dirname + '/login.html')
-
+app.get('/user', function (req, res) {
+    let data = JSON.parse(fs.readFileSync('./user.json', 'utf-8'))
+    res.send(data)
 })
 
 app.post('/user', jsonParser, (req, res) => {
